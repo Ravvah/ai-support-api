@@ -1,12 +1,13 @@
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from app.api.schemas import AskRequest, AskResponse, HistoryItemResponse
 from app.application.ports import ConversationRepository
 from app.application.services import AnswerService
 from app.dependencies import get_answer_service, get_conversation_repository
+from app.errors import QuestionTooLongError, EmptyQuestionError
 
 router = APIRouter()
 
@@ -20,7 +21,19 @@ def get_health() -> dict:
 def answer_to_question(
     request: AskRequest, answer_service: Annotated[AnswerService, Depends(get_answer_service)]
 ) -> AskResponse:
-    response = answer_service.answer(request)
+    try:
+        response = answer_service.answer(request)
+    except QuestionTooLongError:
+        raise HTTPException(
+            status_code=422,
+            detail="Question is too long"
+        )
+    except EmptyQuestionError:
+        raise HTTPException(
+            status_code=422,
+            detail="Question is empty "
+        )
+    
     return response
 
 

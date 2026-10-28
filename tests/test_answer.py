@@ -34,3 +34,11 @@ def test_too_short_question_answer() -> None:
 def test_uncorrect_request_answer() -> None:
     response = client.post("/answer", json={})
     assert response.status_code == 422
+
+def test_answer_returns_422_when_question_too_long() -> None:
+    response = client.post("/answer", json={"question": "a" * 501})
+    assert response.status_code == 422
+
+def test_answer_returns_422_when_question_is_empty() -> None:
+    response = client.post("/answer", json={"question": "   "})
+    assert response.status_code == 422
