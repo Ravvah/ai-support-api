@@ -21,6 +21,6 @@ jobs:
 
       - name: Check types
         run: uv run pyright
-        
+
       - name: Run tests
-        run: uv run pytest -q
+        run: uv run python -m pytest -q
