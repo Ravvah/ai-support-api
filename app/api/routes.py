@@ -7,7 +7,7 @@ from app.api.schemas import AskRequest, AskResponse, HistoryItemResponse
 from app.application.ports import ConversationRepository
 from app.application.services import AnswerService
 from app.dependencies import get_answer_service, get_conversation_repository
-from app.errors import QuestionTooLongError, EmptyQuestionError
+from app.errors import EmptyQuestionError, QuestionTooLongError
 
 router = APIRouter()
 

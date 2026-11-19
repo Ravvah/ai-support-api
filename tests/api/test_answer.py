@@ -23,7 +23,7 @@ def test_correct_answer() -> None:
         "request_id": "test-response-id",
     }
 
-    app.dependency_overrides.clear()
+    app.dependency_overrides.pop(get_answer_service, None)
 
 
 def test_too_short_question_answer() -> None:

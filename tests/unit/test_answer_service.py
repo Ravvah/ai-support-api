@@ -2,7 +2,7 @@ import pytest
 
 from app.api.schemas import AskRequest
 from app.application.services import AnswerService
-from app.errors import LLMUnavailableError, QuestionTooLongError, EmptyQuestionError
+from app.errors import EmptyQuestionError, LLMUnavailableError, QuestionTooLongError
 from app.infrastructure.llm_fake import FakeLLM
 from app.infrastructure.repository_memory import InMemoryConversationRepository
 
@@ -90,7 +90,7 @@ def test_answer_rejects_question_longer_than_500_characters(answer_service: Answ
     question = "a" * 501
     with pytest.raises(QuestionTooLongError):
         answer_service.answer(AskRequest(question=question))
-    ...
+    
 
 def test_answer_rejects_whitespace_only_question(answer_service: AnswerService) -> None:
     question = "   "
